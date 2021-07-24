@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+    background-color: #fff;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .card-body {
+    background-color: #fff;
+  }
+
+  .card-text {
+    padding: 10px;
+
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  
+  .row {
+    margin-top: 100px;
+  }
+
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    border-color: #000;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 1px 1px rgba(0, 0, 0, 0.075);
+    outline: 0 none;
+  }

@@ -1,0 +1,45 @@
+<div class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
+    <div class="d-flex">
+        <div class="toast-body">
+            Hello, world! This is a toast message.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+            aria-label="Close"></button>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create Question</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="compose">
+                    <input type="hidden" name="userId" value="<%= userId %>">
+                    <div class="mb-3">
+                        <label for="tag">Tag:</label>
+                        <select class="form-select" name="tag" id="tag">
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Question" class="col-form-label">Question:</label>
+                        <input type="text" class="form-control" name="question" id="Question" autocomplete="off"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="explain" class="col-form-label">Describe:</label>
+                        <textarea style="font-family: adobe-garamond-pro,serif;font-weight: 700; font-style: normal;"
+                            id="mytextarea" name="describe"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="compose-btn">Create</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

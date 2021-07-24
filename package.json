@@ -1,0 +1,42 @@
+{
+  "name": "educationalforum",
+  "version": "1.0.0",
+  "description": "Educational Forum",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kanika2021/EducationalForum.git"
+  },
+  "keywords": [
+    "Educational",
+    "Forum"
+  ],
+  "author": "kanika Mulchandani",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kanika2021/EducationalForum/issues"
+  },
+  "homepage": "https://github.com/kanika2021/EducationalForum#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "debug": "^4.3.1",
+    "ejs": "^3.1.6",
+    "ejs-lint": "^1.2.0",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "highlight.js": "^11.0.1",
+    "joi": "^17.4.0",
+    "jslint": "^0.12.1",
+    "md5": "^2.3.0",
+    "mongoose": "^5.12.14",
+    "mongoose-findorcreate": "^3.0.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

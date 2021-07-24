@@ -1,0 +1,78 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <button type="button" class="btn btn-light position-relative" style="display:flex;"><span class="material-icons"
+                style="color:#000">
+                account_circle
+            </span>
+            <%= name %><span
+                    class="position-absolute top-0 start-100 translate-middle p-2 bg-success border border-light rounded-circle"
+                    id="profile-badge">
+                    <span class="visually-hidden">New alerts</span>
+                </span>
+        </button>
+        <button class=" navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="material-icons" style="color:white">
+                menu_open
+            </span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#"><span class="material-icons">
+                            home
+                        </span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#"><span class="material-icons"
+                            style="cursor: pointer;">
+                            forum
+                        </span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span class="material-icons" style="cursor: pointer;">
+                            manage_accounts
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span class="material-icons" style="cursor: pointer;">
+                            emoji_events
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span class="material-icons" style="cursor: pointer;">
+                            notifications
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span class="material-icons">
+                            dark_mode
+                        </span>
+                    </a>
+                </li>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@Compose"
+                    style="margin-left: 100px;display:flex; justify-content: center; align-items: center;"
+                    class="btn btn-warning feed"><u>Feed
+                        your
+                        mind</u>
+                    <span class="material-icons">
+                        edit
+                    </span></button>
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-primary" type="submit"><span class="material-icons"
+                        style="color: #fff; margin: 0px 5px;">
+                        search
+                    </span></button>
+            </form>
+        </div>
+    </div>
+</nav>

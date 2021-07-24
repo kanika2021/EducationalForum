@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Project</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"
+    defer></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="css/general/loginPage.css">
+</head>
+
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col col-md-12">
+        <h1 class='display-3'>Educational Discussion Forum</h1>
+      </div>
+      <div class="col col-md-6 describe" style="border-color: #fff; padding:40px">
+
+        <div class="shadow-sm p-3 mb-5 bg-white rounded">
+          <div class="card-text ">
+            This Educational Discussion forum website in which teacher can post new topics
+            related to upcoming course for students can discuss related to their studies
+            from teachers and alumni also can guide junior students with the help of teachers
+            after secure login through registration into the website.
+            <Marquee>
+              <blockquote class="blockquote" style="padding:5px; color:#04009A">
+                Save your time By typing your query
+              </blockquote>
+            </Marquee>
+          </div>
+        </div>
+      </div>
+      <div class="col col-md-6 login">
+        <form class="form-control" id="loginForm" style="border-color: #fff; padding:40px" name="Project">
+          <div class="mb-3">
+            <label for="emailId" class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" id="emailId" placeholder="name@example.com" required>
+          </div>
+          <div class="mb-3">
+            <label for="passowrd" class="form-label">password</label>
+            <input type="password" name="password" class="form-control" id="password" required>
+          </div>
+          <input class="btn btn-outline-dark" id="loginbtn" type="submit" value="Login">
+          <a href="#" class="link-primary">Forget password ?</a>
+        </form>
+      </div>
+    </div>
+    <div class="col col-lg-12" style="display:flex;justify-content:center;">
+      <samp>New to Forum ? </samp>
+      <a href="Register" class="link-primary">Register here</a> 👈
+    </div>
+  </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="js/login.js"></script>
+
+</html>

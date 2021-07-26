@@ -1,9 +1,13 @@
+
+
 console.log("forum home");
 
 
 function getAllQuestions() {
+    let userId = document.getElementById("feeder").dataset.userid;
+    console.log(userId);
     $.ajax({
-        url: "/posts",
+        url: "/posts/" + userId,
         method: "GET",
         dataType: "JSON",
         contentType: "application/json",
@@ -66,6 +70,7 @@ function displayQuestions(questions) {
         let follow = document.createElement("span");
         let clock = document.createElement("span");
         like.style.cursor = "pointer";
+        dislikes.style.cursor = "pointer";
 
         let followText = document.createElement("p");
         let timehistory = document.createElement("p");
@@ -94,14 +99,14 @@ function displayQuestions(questions) {
         let dislikesBadge = document.createElement("span");
         let commentsBadge = document.createElement("span");
         let tagBadge = document.createElement("span");
-        tagBadge.innerText = "General";
+        tagBadge.innerText = questions[k].tag;
 
         likeBadge.classList.add("badge", "bg-light", "text-dark");
         dislikesBadge.classList.add("badge", "bg-light", "text-dark");
         commentsBadge.classList.add("badge", "bg-light", "text-dark");
         tagBadge.classList.add("badge", "rounded-pill", "bg-light", "text-dark");
 
-        likeBadge.innerText = questions[k].Likes;
+        likeBadge.innerText = questions[k].likes;
         dislikesBadge.innerText = questions[k].dislikes;
         commentsBadge.innerText = 0;
 
@@ -112,9 +117,9 @@ function displayQuestions(questions) {
         let HistoryContainer = document.createElement("div");
         let tagContainer = document.createElement("div");
 
-        likeContainer.dataset.userId = questions[k].userId;
-        dislikesContainer.dataset.userId = questions[k].userId;
-        commentsContainer.dataset.userId = questions[k].userId;
+        likeContainer.dataset.userId = questions[k].currentUser;
+        dislikesContainer.dataset.userId = questions[k].currentUser;
+        commentsContainer.dataset.userId = questions[k].currentUser;
 
         likeContainer.dataset.questionId = questions[k]._id;
         dislikesContainer.dataset.questionId = questions[k]._id;
@@ -129,9 +134,15 @@ function displayQuestions(questions) {
         dislikes.id = "dislikes";
         comments.id = "comments";
 
-        like.dataset.flag = false;
-        dislikes.dataset.flag = false;
+        likeContainer.dataset.flag = questions[k].isLiked;
+        if (questions[k].isLiked) {
+            like.style.color = "blue";
+        }
 
+        dislikesContainer.dataset.flag = false;
+        if (questions[k].isLiked) {
+            dislikes.style.color = "red";
+        }
         followContainer.style.marginLeft = "auto";
         HistoryContainer.style.marginLeft = "auto";
         tagContainer.style.marginLeft = "auto";
@@ -176,7 +187,7 @@ function displayQuestions(questions) {
 window.onload = function () {
 
     let likeicon = document.querySelectorAll(".likeParent");
-    let dislikeicon = document.getElementById("dislikes");
+    let dislikeicon = document.querySelectorAll(".dislikeParent");
     let commenticon = document.getElementById("comment");
 
     console.log(likeicon);
@@ -187,19 +198,26 @@ window.onload = function () {
             let questionId = e.dataset.questionId;
             let userId = e.dataset.userId;
             let flag = e.dataset.flag;
-            if (!flag)
-                ajaxhandler({ Qid: questionId, flag: flag, userId: userId }, "likes", e);
+            let s = e.children[1].innerText;
+            console.log("value  -> " + s);
+            console.log(flag);
+            ajaxhandler({ Qid: questionId, flag: flag, userId: userId, value: s }, "likes", e);
 
         })
     });
 
-
-    dislikeicon.addEventListener('click', function (e) {
-        console.log("dislike button clicked ")
-        let questionId = document.getElementById("dislikeParent").dataset.questionId;
-        let res = ajaxhandler(questionId, "dislikes");
+    dislikeicon.forEach(e => {
+        e.addEventListener('click', function (event) {
+            console.log("dislike button clicked");
+            let questionId = e.dataset.questionId;
+            let userId = e.dataset.userId;
+            let flag = e.dataset.flag;
+            let s = e.children[1].innerText;
+            console.log("value  -> " + s);
+            console.log(flag);
+            ajaxhandler({ Qid: questionId, flag: flag, userId: userId, value: s }, "dislikes", e);
+        })
     });
-
 
     function ajaxhandler(data, type, classname) {
         console.log(data);
@@ -210,17 +228,28 @@ window.onload = function () {
             url: "/answers/" + type
         }).done(function (response) {
             console.log(response);
+            let x = classname;
+            console.log(x);
+
             if (type === "likes") {
-                let x = classname;
-                console.log(x);
-                if (!data.flag)
+                if (data.flag === 'false')
                     x.dataset.flag = true;
                 else
                     x.dataset.flag = false;
-                x.children[1].innerText = response.Likes;
+                console.table({ likes: response.likes, color: "blue" });
+                x.children[1].textContent = response.likes;
                 x.children[0].style.color = "blue";
             }
-            return response;
+            else if (type === "dislikes") {
+                if (data.flag === 'false')
+                    x.dataset.flag = true;
+                else
+                    x.dataset.flag = false;
+                console.table({ likes: response.likes, color: "blue" });
+                x.children[1].innerText = response.dislikes;
+                x.children[0].style.color = "red";
+            }
+
         }).fail(function (jqXHR, textStatus, errorThrown) {
             console.log(textStatus);
         });

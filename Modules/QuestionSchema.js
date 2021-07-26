@@ -17,16 +17,11 @@ const QuestionSchema = new mongoose.Schema({
     Description: {
         type: String
     },
-    Likes: {
-        type: Number,
-        default: 0
-    },
     LikedUsers: {
-        type: Array
-    },
-    dislikes: {
-        type: Number,
-        default: 0
+        type: Array,
+        validator: function (v) {
+            return !this.LikedUsers.includes(v);
+        }
     },
     disLikedUsers: {
         type: Array

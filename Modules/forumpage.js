@@ -4,6 +4,9 @@ const userSchema = require('./userschema');
 const app = express();
 const questionSchema = require('./QuestionSchema');
 const answerSchema = require('./AnswerSchema');
+const _ = require("lodash");
+const { default: crossOriginEmbedderPolicy } = require('helmet/dist/middlewares/cross-origin-embedder-policy');
+mongoose.set('useFindAndModify', false);
 
 const Users = mongoose.model('Users', userSchema);
 const Questions = mongoose.model('Questions', questionSchema);
@@ -45,15 +48,20 @@ app.post('/compose', (req, res) => {
         });
 })
 
-app.get("/posts", async (req, res) => {
+app.get("/posts/:userId", async (req, res) => {
     const questions = await Questions.find({}).sort({ created_at: -1 });
     const newQuestions = [];
+    let currentUserId = req.params.userId;
 
     for (const question of questions) {
         let x = question.toObject();
         let user = await Users.findById(x.userId);
         if (user != null) {
             x["username"] = user.fullname;
+            x["currentUser"] = currentUserId;
+            x["isLiked"] = question.LikedUsers.includes(currentUserId);
+            x["likes"] = question.LikedUsers.length;
+            x["dislikes"] = question.disLikedUsers.length;
             newQuestions.push(x);
         }
     }
@@ -64,24 +72,41 @@ app.get("/posts", async (req, res) => {
 
 
 app.post('/answers/:icon', async (req, res) => {
-    let pathparam = req.params;
-    let bodyval = req.body;
-    let flag = req.body.flag;
-    // console.log(pathparam);
-    console.log(bodyval);
-    let filter = { _id: bodyval.Qid };
-    let Question = await Questions.findById(filter);
+
+    let body = req.body;
+    let param = req.params;
+
+    console.table({ body: body });
+    console.table({ param: param });
+
+    let filter, update;
+    filter = { _id: body.Qid };
+
+    let Question = await Questions.find(filter);
+    console.log("-----------------------------------------------------------------------");
     console.log(Question);
-    let update;
-    if (!flag)
-        update = { Likes: (Question.Likes + 1), LikedUsers: Questions.LikedUsers.push(userId) };
-    else if (flag)
-        update = { Likes: (Question.Likes - 1), LikedUsers: Questions.LikedUsers.push(userId) };
-    console.log(update);
-    let finalresult = await Questions.findOneAndUpdate(filter, update, { new: true });
-    if (finalresult != null)
-        res.status(200).send(finalresult);
+    console.log("-----------------------------------------------------------------------");
+    let flag = false;
+    console.log(Question[0].disLikedUsers.includes(body.userId));
+    let x;
+
+    if (param.icon === "likes" && !Question[0].LikedUsers.includes(body.userId)) {
+        update = { $push: { LikedUsers: body.userId }, $pull: { disLikedUsers: body.userId } };
+        flag = true;
+    } else if (param.icon === "dislikes" && !Question[0].disLikedUsers.includes(body.userId)) {
+        update = { $pull: { LikedUsers: body.userId }, $push: { disLikedUsers: body.userId } };
+        flag = true;
+    }
+    let r;
+    result = await Questions.findOneAndUpdate(filter, update, { new: true });
+    r = result.toObject();
+    r["likes"] = result.LikedUsers.length;
+    r["dislikes"] = result.disLikedUsers.length;
+    console.log("Result data");
+    console.log(r);
+
+    res.status(200).send(r);
+
 });
 
 module.exports = app;
-

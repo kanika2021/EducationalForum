@@ -1,0 +1,99 @@
+<div class="container" style="margin-top: 10px;">
+    <div class="row justify-content-center">
+        <div class="col col-lg-10">
+            <div class="accordion accordion-flush" id="accordionFlushExample"></div>
+
+            <% for(let i=0; i<myQuestions.length; i++){%>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-heading<%=i%>">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapse<%=i%>" aria-expanded="false"
+                            aria-controls="flush-collapse<%=i%>">
+                            Post <%= i+1 %>
+                        </button>
+                    </h2>
+                    <div id="flush-collapse<%=i%>" class="accordion-collapse collapse"
+                        aria-labelledby="flush-heading<%=i%>" data-bs-parent="#accordionFlushExample">
+                        <span class="badge bg-secondary">
+                            <%= myQuestions[i].tag%>
+                        </span>
+                        <div class="accordion-body">
+                            <%=myQuestions[i].Question%>
+                                <div>
+                                    <%-myQuestions[i].Description%>
+                                </div>
+                        </div>
+                        <button type="button" class="btn btn-primary">
+                            Likes<span class="badge bg-danger ms-2">
+                                <%=myQuestions[i].LikedUsers.length%>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-warning">
+                            Dislikes<span class="badge bg-danger ms-2">
+                                <%=myQuestions[i].disLikedUsers.length%>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-light comments" data-qid="<%=myQuestions[i]._id%>"
+                            onclick="showcomments(this.dataset.qid)" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal33">
+                            Comments<span class=" badge bg-dark ms-2">
+                                <%=myQuestions[i].CommentedUsers.length%>
+                            </span>
+                        </button>
+
+                    </div>
+                </div>
+                <%}%>
+
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal33" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="commentry" style="background-color: #EEEEEE;">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script defer>
+    function showcomments(data) {
+        let settings = {
+            url: "/getUserAnswer?qid=" + data,
+            method: 'GET',
+            contentType: 'application/json'
+        };
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+            let container = document.querySelector('#commentry');
+            for (let r of response[0].answers) {
+                let h6 = document.createElement("h6");
+                let p = document.createElement("p");
+                let div = document.createElement("div");
+
+                div.classList.add("shadow-sm", "p-2", "mb-2", "bg-body", "rounded")
+                h6.classList.add("badge", "bg-info");
+                h6.innerText = h6.value = r.userId;
+                p.innerHTML = r.answer;
+                div.appendChild(h6);
+                div.appendChild(p);
+                container.appendChild(div);
+            }
+
+        }).fail(function (XHR, status, err) {
+            console.log(status);
+        })
+    }
+</script>

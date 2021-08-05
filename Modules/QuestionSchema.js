@@ -26,6 +26,14 @@ const QuestionSchema = new mongoose.Schema({
     disLikedUsers: {
         type: Array
     },
+    CommentedUsers: {
+        type: Array,
+        unique: true
+    },
+    BookmarkedUsers: {
+        type: Array,
+        unique: true
+    },
     created_at: {
         type: Date, default: Date.now
     },

@@ -1,0 +1,207 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col col-lg-6">
+            <div class="card card-body" style="margin-top:10%">
+                <div style="display: flex;justify-content: center;align-items: center;">
+                    <button type="button" class="btn btn-info btn-rounded">Edit profile</button>
+                </div>
+                <form id="editProfile">
+                    <input type="hidden" name="userId" value="<%= data._id %>">
+                    <div class="mb-2">
+                        <label for="exampleInputEmail1" class="form-label">Email address</label>
+                        <input type="email" name="email" class="form-control" id="exampleInputEmail1"
+                            value="<%= data.email %>" disabled>
+                    </div>
+                    <div class="mb-2">
+                        <label for="Fullname" class="form-label">Fullname</label>
+                        <input type="text" name="fullname" class="form-control" id="Fullname"
+                            value="<%= data.fullname %>">
+                    </div>
+                    <div class="mb-2">
+                        <label for="dob" class="form-label">Date of Birth</label>
+                        <input type="date" name="birthDate" id="dob" class="form-control" value="">
+                    </div>
+                    <div class="mb-2">
+                        <label for="inputGroupSelect01" class="form-label">Questions</label>
+                        <select class="form-select" name="question" id="inputGroupSelect01">
+
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label for="answer" class="form-label">Answer</label>
+                        <input type="text" name="answer" class="form-control" id="answer" value="<%= data.answer %>">
+                    </div>
+                    <div class=" mb-2">
+                        <label for="inputGroupSelect03" class="form-label">Roles</label>
+                        <select class="form-select" name="role" id="inputGroupSelect03">
+
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label for="username" class="form-label">username</label>
+                        <input type="text" name="username" class="form-control" id="username"
+                            value="<%= data.username %>">
+                    </div>
+                    <div class="mb-2">
+                        <label for="college" class="form-label">College</label>
+                        <input type="text" name="college" class="form-control" id="college" value="<%= data.college%>">
+                    </div>
+
+                    <button type="submit" name="submit" value="submit" class="btn btn-primary">save changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col col-lg-6">
+
+            <div class="card card-body" style="margin-top:7%; margin-bottom: 2%">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertme"
+                    style="display: none;">
+
+
+                </div>
+                <div style="display: flex;justify-content: center;align-items: center;">
+                    <button type="button" class="btn btn-danger btn-rounded">Change Password</button>
+                </div>
+                <form id="changePassword">
+                    <input type="hidden" name="userId" value="<%= data._id %>">
+                    <div class="mb-2">
+                        <label for="oldPass" class="form-label">Old Password</label>
+                        <input type="password" name="oldPass" class="form-control" id="oldPass">
+                    </div>
+                    <div class="mb-2">
+                        <label for="newPass" class="form-label">New Password</label>
+                        <input type="password" name="newPass" class="form-control" id="newPass">
+                    </div>
+                    <div class="mb-2">
+                        <label for="confirmPass" class="form-label">Confirm Password</label>
+                        <input type="password" name="confirmPass" class="form-control" id="confirmPass">
+                    </div>
+                    <button type="submit" class="btn btn-primary">submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const input = {};
+
+    let roles = ["select the role", "Teacher", "Student", "Alumini"]
+
+    let questions = ["Select the question",
+        "What is your pet name?", "What is your favourite sport?", "What is your favourite colour?",
+        "What is your favourite food?", "What is your favourite movie?", "What is your mobile no.?",
+        "what is college id", "who is your role modal"
+    ]
+
+    function loadroles(roles) {
+        for (let k = 0; k < roles.length; k++) {
+            let option = document.createElement("option");
+            option.value = roles[k];
+            option.innerText = roles[k];
+            let parent = document.getElementById("inputGroupSelect03");
+            if (roles[k] == "<%= data.roles %>") {
+                option.selected = true;
+            }
+            parent.appendChild(option);
+        }
+    }
+
+    function loadQuestion(questions) {
+        for (let k = 0; k < questions.length; k++) {
+            let option = document.createElement("option");
+            option.value = questions[k];
+            option.innerText = questions[k];
+            let parent = document.getElementById("inputGroupSelect01");
+            if (questions[k] == "<%= data.question%>")
+                option.selected = true;
+            parent.appendChild(option);
+        }
+    }
+
+    function loadDateOfBirth() {
+        document.getElementById("dob").valueAsDate = new Date(new Date("<%=data.dateOfBirth%>").getTime());
+    }
+
+    loadDateOfBirth();
+
+    loadQuestion(questions);
+    loadroles(roles);
+
+
+    let form = document.getElementById("editProfile");
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+
+        for (let [key, value] of formData) {
+            input[key] = value;
+        }
+        input["action"] = "editProfile"
+        console.log(input);
+
+        ajaxhandler(input);
+
+    });
+
+    let input1 = {};
+    let form1 = document.getElementById("changePassword");
+
+    form1.addEventListener('submit', function (event) {
+        event.preventDefault();
+        console.log("Inside change password");
+        const formData = new FormData(form1);
+        console.log(formData)
+
+        for (let [key, value] of formData) {
+            input1[key] = value;
+        }
+        input1["action"] = "changePassword"
+        console.log(input1);
+        let x = document.getElementById('alertme');
+
+        if (input1["newPass"] !== input1["confirmPass"]) {
+
+            x.innerHTML = '⚠ new password and confirm password is not matched. Try again<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+            $('#alertme').show();
+        } else if (input1["newPass"] === input1["oldPass"]) {
+            x.innerHTML = '⚠ New Password and old password should not be same <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+            $('#alertme').show();
+        } else if (input1["newPass"].length < 5) {
+            x.innerHTML = 'Password length should be greater than 3<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+            $('#alertme').show();
+        } else {
+            ajaxhandler(input1);
+        }
+    })
+
+    function ajaxhandler(data) {
+
+        $.ajax({
+            url: "/updateProfile",
+            method: "PUT",
+            dataType: "JSON",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+        }).done(function (response) {
+            console.log(response);
+            if (data["action"] === "editProfile")
+                window.location.href = "/profile?token=" + localStorage.getItem("eforumtoken");
+        }).fail(function (JHR, textstatus, err) {
+            if (JHR.status === 200) {
+                alert(JHR.responseText);
+                window.location.href = "/login";
+            }
+            else if (JHR.status === 500) {
+                alert(JHR.responseText);
+            }
+        })
+    }
+
+</script>

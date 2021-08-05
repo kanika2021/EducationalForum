@@ -31,7 +31,7 @@ app.post('/register', (req, res) => {
 
                     let x = req.body.birthDate.split("-");
                     const dateOfBirth = new Date(x[2], x[1] - 1, x[0]).getTime();
-                    const token = md5(req.body.email);
+                    const token = md5(req.body.email + req.body.newPassword);
                     const user = new Users({
                         fullname: req.body.username,
                         email: req.body.email,

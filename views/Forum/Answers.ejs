@@ -1,0 +1,48 @@
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+    tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel">Answers</h5>
+                <input type="hidden" id="set-param1">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="answer-all"
+                style="font-family: alegreya,serif;font-weight: 400; font-style: normal;">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
+                    data-bs-dismiss="modal" id="givesol">Give your solution</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
+    tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel2">My solution</h5>
+                <input type="hidden" id="set-param2">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-5">
+                    <textarea style="font-family: adobe-garamond-pro,serif;font-weight: 700; font-style: normal;"
+                        id="mytextarea1" name="describe"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" id="reset-input" value="reset">Reset</button>
+                <button class="btn btn-success" id="myanswersubmit" data-bs-dismiss="modal">save answer</button>
+                <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal"
+                    data-bs-dismiss="modal">Back to Answers page</button>
+            </div>
+        </div>
+    </div>
+</div>
+<button style="display:none" id="all-answers" class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle"
+    role="button"></button>

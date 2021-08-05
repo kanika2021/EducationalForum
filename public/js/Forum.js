@@ -1,10 +1,23 @@
 // -----------------------(Tiny text editor)------------------------------------------------
+$(document).ready(function () {
+    $(".nav-link").on("click", function () {
+        $(".nav-link").each(function (i) {
+            let x = this;
+            x.classList.contains('active') ? x.classList.remove('active') : null;
+        });
+        $(this).addClass("active");
+    });
+});
+
+
+
 
 tinymce.init({
     selector: 'textarea',
-    plugins: 'a11ychecker powerpaste advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-    toolbar: 'alignleft aligncenter alignright alignfull Bold Italic Underline Strikethrough Superscript Subscript numlist bullist  table',
+    plugins: 'a11ychecker textcolor powerpaste code casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+    toolbar: 'alignleft aligncenter alignright alignfull Bold Italic Underline forecolor backcolor Strikethrough Superscript Subscript numlist bullist  table',
     toolbar_mode: 'floating',
+    textcolor_cols: "5",
     tinycomments_mode: 'embedded',
     setup: function (editor) {
         editor.on('change', function () {
@@ -74,8 +87,6 @@ form.addEventListener('submit', (event) => {
     console.log(input);
     createQuestion(input);
 });
-
-
 
 function createQuestion(dataset) {
     $.ajax({

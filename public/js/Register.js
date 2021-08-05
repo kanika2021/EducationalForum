@@ -8,7 +8,8 @@ let roles = ["select the role", "Teacher", "Student", "Alumini"]
 
 let questions = ["Select the question",
     "What is your pet name?", "What is your favourite sport?", "What is your favourite colour?",
-    "What is your favourite food?", "What is your favourite movie?", "What is your mobile no.?"
+    "What is your favourite food?", "What is your favourite movie?", "What is your mobile no.?",
+    "what is college id", "who is your role modal"
 ]
 
 function loadroles(roles) {

@@ -4,7 +4,8 @@
                 style="color:#000">
                 account_circle
             </span>
-            <%= name %><span
+            <%= name %>
+                <span
                     class="position-absolute top-0 start-100 translate-middle p-2 bg-success border border-light rounded-circle"
                     id="profile-badge">
                     <span class="visually-hidden">New alerts</span>
@@ -91,9 +92,9 @@
                             <%}%>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="#" onclick="logout()">
                         <span class="material-icons">
-                            contact_support
+                            logout
                         </span>
                     </a>
                 </li>
@@ -106,9 +107,9 @@
                         edit
                     </span></button>
             </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-primary" type="submit"><span class="material-icons"
+            <form class="d-flex" id="searchengine">
+                <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" id="searcher">
+                <button class="btn btn-primary" id="searchbtn"><span class="material-icons"
                         style="color: #fff; margin: 0px 5px;">
                         search
                     </span></button>
@@ -116,3 +117,139 @@
         </div>
     </div>
 </nav>
+<button class="btn btn-primary" id="searchResult" type="button" data-bs-toggle="offcanvas"
+    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Result</h5>
+        <button type="button" class="btn-close text-reset" id="closeCanvas" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div id="rs">
+
+        </div>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body" id="search2">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+
+    let btn = document.getElementById("searchbtn");
+
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        let val = document.getElementById("searcher").value;
+        console.log(val);
+        console.log("search button clicked");
+        searchajaxhandler({ input: val });
+    });
+
+    function searchajaxhandler(searchinput) {
+        let settings = {
+            url: "/search",
+            method: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(searchinput)
+        };
+
+        $.ajax(settings)
+            .done(function (result) {
+                console.log(result);
+                $("#searchResult").click();
+                let f = document.getElementById("rs");
+                document.getElementById("searcher").value = "";
+                f.innerText = "";
+                for (let res of result) {
+                    console.log(res);
+                    let card = document.createElement("div");
+                    let cardHead = document.createElement("div");
+                    let cardBody = document.createElement("div");
+                    let p = document.createElement("p");
+                    let button = document.createElement("button");
+
+                    card.classList.add("card", "text-center");
+                    cardHead.classList.add("card-header");
+                    cardBody.classList.add("card-body");
+                    button.classList.add("btn", "btn-primary", "search1");
+                    button.id = res._id;
+                    button.dataset.uid = res.userId;
+                    button.dataset.bsToggle = "collapse"
+                    button.dataset.bsTarget = "#collapseExample"
+                    button.ariaExpanded = "false";
+                    button.ariaControls = "collapseExample";
+
+                    cardHead.innerText = res.username;
+                    cardBody.innerText = res.Question;
+                    p.innerHTML = res.Description;
+                    button.innerText = "Others answer";
+
+                    cardBody.appendChild(p);
+                    cardBody.appendChild(button);
+                    card.appendChild(cardHead);
+                    card.appendChild(cardBody);
+                    f.appendChild(card);
+
+                }
+                searchbuttonlistener();
+            })
+            .fail(function (jHR, textstatus, err) {
+                console.log(jHR);
+            })
+
+    }
+    searchbuttonlistener()
+
+    function searchbuttonlistener() {
+        let sbtn = document.querySelectorAll(".search1");
+
+        sbtn.forEach(e => {
+            e.addEventListener("click", function (event) {
+                console.log("Button clicked");
+                let qid = e.id;
+                showcomments(qid);
+            })
+        })
+    }
+
+    function showcomments(data) {
+        console.log("Inside show comments");
+        console.log(data);
+        let settings = {
+            url: "/getUserAnswer?qid=" + data,
+            method: 'GET',
+            contentType: 'application/json'
+        };
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+
+            let container = document.querySelector('#search2');
+            document.querySelector('#search2').innerText = "";
+            if (response.length > 0) {
+                for (let r of response[0].answers) {
+                    let h6 = document.createElement("h6");
+                    let p = document.createElement("p");
+                    let div = document.createElement("div");
+
+                    div.classList.add("shadow-sm", "p-2", "mb-2", "bg-body", "rounded")
+                    h6.classList.add("badge", "bg-info");
+                    h6.innerText = h6.value = r.userId;
+                    p.innerHTML = r.answer;
+                    div.appendChild(h6);
+                    div.appendChild(p);
+                    container.appendChild(div);
+                }
+            }
+        }).fail(function (XHR, status, err) {
+            console.log(status);
+        })
+    }
+</script>

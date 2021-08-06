@@ -93,4 +93,42 @@ app.post('/login', (req, res) => {
     })
 })
 
+app.get("/forgetPassword", function (req, res) {
+    res.render("ForgetPassword/Forgetpassword");
+})
+
+app.get("/forgetPass", async function (req, res) {
+    console.log(req.body);
+    let email = req.query.email;
+    let action1 = req.query.action;
+    let action2 = req.query.action1;
+
+
+    // console.table({ email: email, action: action });
+
+    let result;
+    if (action1 === "email") {
+        result = await Users.find({ email: email });
+    }
+    else if (action1 === "answer") {
+        result = await Users.find({ email: email });
+
+    }
+    else {
+        let filter = { email: email };
+        bcrypt.hash(action2, saltRounds, async function (err, hash) {
+            if (err) {
+                console.log("error in mongoose");
+                console.log(err);
+            }
+            result = await Users.findOneAndUpdate(filter, { password: hash }, { new: true });
+        })
+    }
+
+
+    if (result != null)
+        res.status(200).send({ email: email, question: result[0].question });
+
+});
+
 module.exports = app;

@@ -9,5 +9,15 @@
 <% if(nav==="home" ){%>
     <script src="js/Forum_home.js" defer></script>
     <%}%>
+        <script>
+            $(document).ready(function () {
+                console.log(localStorage.getItem("eforumtoken") == "<%= token %>");
+                localStorage.getItem("eforumtoken") == "<%= token %>" ? null : window.location.href = "/login";
+            })
+            function logout() {
+                localStorage.removeItem("eforumtoken");
+                location.reload();
+            }
+        </script>
 
         </html>

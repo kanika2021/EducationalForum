@@ -9,8 +9,10 @@
 
             </div>
             <div style="margin-top:5%; display: flex; justify-content: center;align-items: center;">
-                <h3 style="font-family: 'Andada Pro', serif;">Total Credits Earned : <span
-                        style="color: red;">123000</span> </h3>
+                <h3 style="font-family: 'Andada Pro', serif;">Total Credits Earned : <span style="color: red;"></span>
+                    <%=counter%>
+                        </span>
+                </h3>
             </div>
             <div class="card bg-light mb-6" style="font-family: 'Andada Pro', serif;">
                 <div class="card-header">How do earn more credits ?</div>
@@ -44,8 +46,26 @@
 
         </div>
     </div>
+    <script type='text/javascript'>
 
-    <script>
+        let c1 = "<%= likes %>".split(",");
+        for (let index = 0; index < c1.length; index++) {
+            c1[index] = Number(c1[index]);
+        }
+        console.log(c1);
+
+        let c2 = "<%= posts %>".split(",");
+        for (let index = 0; index < c1.length; index++) {
+            c2[index] = Number(c2[index]);
+        }
+        console.log(c2);
+
+        let c3 = "<%= comments %>".split(",");
+        for (let index = 0; index < c1.length; index++) {
+            c3[index] = Number(c3[index]);
+        }
+        console.log(c3);
+
         var ctx = document.getElementById('myChart').getContext('2d');
 
         function loadcolors(color) {
@@ -56,25 +76,27 @@
             return colorArray;
         }
 
+        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                labels: new Date().getMonth() < 6 ? months.splice(0, 5) : months.splice(6, 11),
                 datasets: [{
                     label: '# of Post',
-                    data: [90, 19, 3, 5, 2, 3, 0, 0, 2, 1, 4, 1],
+                    data: new Date().getMonth() < 6 ? c1.splice(0, 5) : c1.splice(6, 11),
                     backgroundColor: loadcolors('rgba(255, 99, 132, 0.2)'),
                     borderColor: loadcolors('rgba(255, 99, 132, 1)'),
                     borderWidth: 1
                 }, {
                     label: '# of Likes',
-                    data: [10, 12, 5, 5, 2, 3, 0, 0, 2, 1, 4, 1],
+                    data: new Date().getMonth() < 6 ? c2.splice(0, 5) : c2.splice(6, 11),
                     backgroundColor: loadcolors('rgba(54, 162, 235, 0.2)'),
                     borderColor: loadcolors('rgba(54, 162, 235, 1)'),
                     borderWidth: 1
                 }, {
                     label: '# of Comments',
-                    data: [40, 10, 1, 5, 2, 3, 0, 0, 2, 1, 4, 1],
+                    data: new Date().getMonth() < 6 ? c3.splice(0, 5) : c3.splice(6, 11),
                     backgroundColor: loadcolors('rgba(153, 102, 255, 0.2)'),
                     borderColor: loadcolors('rgba(153, 102, 255, 1)'),
                     borderWidth: 1

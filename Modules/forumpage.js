@@ -289,9 +289,9 @@ app.get("/mycredits", async (req, res) => {
             let d = new Date(new Date(likes[0].created_at).getTime()).toDateString().split(" ");
             console.log(d);
 
-            let c1 = { "Jan": 0, "Feb": 0, "Mar": 0, "May": 0, "Jun": 0, "Jul": 0, "Aug": 0, "Sep": 0, "Oct": 0, "Nov": 0, "Dec": 0 };
-            let c2 = { "Jan": 0, "Feb": 0, "Mar": 0, "May": 0, "Jun": 0, "Jul": 0, "Aug": 0, "Sep": 0, "Oct": 0, "Nov": 0, "Dec": 0 };
-            let c3 = { "Jan": 0, "Feb": 0, "Mar": 0, "May": 0, "Jun": 0, "Jul": 0, "Aug": 0, "Sep": 0, "Oct": 0, "Nov": 0, "Dec": 0 };
+            let c1 = { "Jan": 0, "Feb": 0, "Mar": 0, "Apr": 0, "May": 0, "Jun": 0, "Jul": 0, "Aug": 0, "Sep": 0, "Oct": 0, "Nov": 0, "Dec": 0 };
+            let c2 = { "Jan": 0, "Feb": 0, "Mar": 0, "Apr": 0, "May": 0, "Jun": 0, "Jul": 0, "Aug": 0, "Sep": 0, "Oct": 0, "Nov": 0, "Dec": 0 };
+            let c3 = { "Jan": 0, "Feb": 0, "Mar": 0, "Apr": 0, "May": 0, "Jun": 0, "Jul": 0, "Aug": 0, "Sep": 0, "Oct": 0, "Nov": 0, "Dec": 0 };
 
             likes.forEach(user => {
                 let date = new Date(new Date(user.created_at).getTime()).toDateString().split(" ");
@@ -314,22 +314,63 @@ app.get("/mycredits", async (req, res) => {
                     c3[date[1]] = c2[date[1]] + 1;
                 }
             });
-            console.log(c1);
-            console.log(c2);
-            console.log(c3);
-            console.table({
-                likes: likes.length, post: posts.length, comments: comments.length
-            });
+
+            let x1 = [];
+            let x2 = [];
+            let x3 = [];
+
+            let counter = 0;
+
+            for (const i in c1) {
+                counter += c1[i];
+                x1.push(c1[i]);
+            }
+
+            for (const i in c2) {
+                counter += c2[i];
+                x2.push(c2[i]);
+            }
+
+            for (const i in c3) {
+                counter += c3[i];
+                x3.push(c3[i]);
+            }
+
             res.render('Forum/MyCredits',
                 {
                     name: user.username,
                     userId: user._id,
                     token: user.token,
-                    nav: "credits"
+                    nav: "credits",
+                    likes: x1,
+                    posts: x2,
+                    comments: x3,
+                    counter: counter
                 });
         }
     });
 });
 
+
+app.post("/search", async (req, res) => {
+    console.log(req.body);
+    let questions = await Questions.find({ Question: { $regex: req.body.input } });
+    console.log(questions);
+    let newQuestions = [];
+    for (const question of questions) {
+        try {
+            let x = question.toObject();
+            let user = await Users.findById(x.userId);
+            if (user != null) {
+                x["username"] = user.fullname;
+                newQuestions.push(x);
+            }
+        } catch (e) {
+            console.info(e);
+        };
+    }
+    if (newQuestions != null)
+        res.status(200).send(newQuestions);
+})
 
 module.exports = app;

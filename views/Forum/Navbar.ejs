@@ -62,13 +62,13 @@
                 </li>
                 <li class="nav-item">
                     <% if (nav==="credits" ) {%>
-                        <a class="nav-link active" href="#">
+                        <a class="nav-link active" href="/mycredits?token=<%= token %>">
                             <span class="material-icons" style="cursor: pointer;">
                                 emoji_events
                             </span>
                         </a>
                         <%} else {%>
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="/mycredits?token=<%= token %>">
                                 <span class="material-icons" style="cursor: pointer;">
                                     emoji_events
                                 </span>
@@ -77,13 +77,13 @@
                 </li>
                 <li class="nav-item">
                     <% if (nav==="bookmarks" ) {%>
-                        <a class="nav-link" href="#">
+                        <a class="nav-link active" href="/mybookmarks?token=<%= token %> ">
                             <span class="material-icons">
                                 bookmarks
                             </span>
                         </a>
                         <%} else {%>
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="/mybookmarks?token=<%= token %> ">
                                 <span class="material-icons">
                                     bookmarks
                                 </span>

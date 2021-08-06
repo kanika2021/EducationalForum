@@ -1,0 +1,97 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col col-lg-7" style="margin-top: 20px;">
+            <canvas id="myChart" width="100" height="80"></canvas>
+        </div>
+        <div class="col col-lg-5" style="padding: 10px;">
+            <div style="margin-top:5%; display: flex; justify-content: center;align-items: center;">
+                <img src="/assets/trophy.png" alt="trophy" width="100" height="100">
+
+            </div>
+            <div style="margin-top:5%; display: flex; justify-content: center;align-items: center;">
+                <h3 style="font-family: 'Andada Pro', serif;">Total Credits Earned : <span
+                        style="color: red;">123000</span> </h3>
+            </div>
+            <div class="card bg-light mb-6" style="font-family: 'Andada Pro', serif;">
+                <div class="card-header">How do earn more credits ?</div>
+                <div class="card-body">
+                    <p class="card-text">
+                    <ul>
+                        <li>
+                            Create valuable post in home page
+                        </li>
+                        <li>
+                            Give likes to useful questions
+                        </li>
+                        <li>
+                            Adding helpful questions to bookmarks
+                        </li>
+                        <li>
+                            Search All your queries in search bar
+                        </li>
+                        <li>
+                            Update your profile always
+                        </li>
+                        <li>
+                            change your password for every 90 days
+                        </li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+        </div>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        function loadcolors(color) {
+            let colorArray = [];
+            for (let index = 0; index < 6; index++) {
+                colorArray.push(color);
+            }
+            return colorArray;
+        }
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: '# of Post',
+                    data: [90, 19, 3, 5, 2, 3, 0, 0, 2, 1, 4, 1],
+                    backgroundColor: loadcolors('rgba(255, 99, 132, 0.2)'),
+                    borderColor: loadcolors('rgba(255, 99, 132, 1)'),
+                    borderWidth: 1
+                }, {
+                    label: '# of Likes',
+                    data: [10, 12, 5, 5, 2, 3, 0, 0, 2, 1, 4, 1],
+                    backgroundColor: loadcolors('rgba(54, 162, 235, 0.2)'),
+                    borderColor: loadcolors('rgba(54, 162, 235, 1)'),
+                    borderWidth: 1
+                }, {
+                    label: '# of Comments',
+                    data: [40, 10, 1, 5, 2, 3, 0, 0, 2, 1, 4, 1],
+                    backgroundColor: loadcolors('rgba(153, 102, 255, 0.2)'),
+                    borderColor: loadcolors('rgba(153, 102, 255, 1)'),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Credit chart'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>

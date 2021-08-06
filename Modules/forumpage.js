@@ -245,7 +245,91 @@ app.put("/updateProfile", async (req, res) => {
             }
         });
     }
-
-
 });
+
+app.get("/mybookmarks", async (req, res) => {
+    console.log("inside profile");
+    let token = req.query.token;
+
+    console.log("token : " + token);
+    Users.findOne({ "token": token }, async (err, user) => {
+        console.log(user);
+        let x = String(user._id);
+        if (err) {
+            res.status(500).send(err);
+        }
+        if (user == null) {
+            res.redirect("/login");
+        } else {
+            const quest = await Questions.find({ BookmarkedUsers: { $in: [x] } });
+            console.log(quest);
+            res.render('Forum/MyBookmark', { name: user.username, userId: user._id, token: user.token, myQuestions: quest, nav: "bookmarks" });
+        }
+    });
+});
+
+app.get("/mycredits", async (req, res) => {
+    console.log("inside profile");
+    let token = req.query.token;
+
+    console.log("token : " + token);
+    Users.findOne({ "token": token }, async (err, user) => {
+        console.log(user);
+        let x = String(user._id);
+        if (err) {
+            res.status(500).send(err);
+        }
+        if (user == null) {
+            res.redirect("/login");
+        } else {
+            const likes = await Questions.find({ LikedUsers: { $in: [x] } });
+            const posts = await Questions.find({ userId: user._id });
+            const comments = await Questions.find({ CommentedUsers: { $in: [x] } });
+
+            let d = new Date(new Date(likes[0].created_at).getTime()).toDateString().split(" ");
+            console.log(d);
+
+            let c1 = { "Jan": 0, "Feb": 0, "Mar": 0, "May": 0, "Jun": 0, "Jul": 0, "Aug": 0, "Sep": 0, "Oct": 0, "Nov": 0, "Dec": 0 };
+            let c2 = { "Jan": 0, "Feb": 0, "Mar": 0, "May": 0, "Jun": 0, "Jul": 0, "Aug": 0, "Sep": 0, "Oct": 0, "Nov": 0, "Dec": 0 };
+            let c3 = { "Jan": 0, "Feb": 0, "Mar": 0, "May": 0, "Jun": 0, "Jul": 0, "Aug": 0, "Sep": 0, "Oct": 0, "Nov": 0, "Dec": 0 };
+
+            likes.forEach(user => {
+                let date = new Date(new Date(user.created_at).getTime()).toDateString().split(" ");
+                // console.log({ isCurrentYeat: user[date[3]] === new Date().getFullYear(), x: date[3], date: date });
+                if (date[3] == new Date().getFullYear()) {
+                    c1[date[1]] = c1[date[1]] + 1;
+                }
+            });
+            posts.forEach(user => {
+                let date = new Date(new Date(user.created_at).getTime()).toDateString().split(" ");
+                // console.log({ isCurrentYeat: user[date[3]] === new Date().getFullYear(), x: date[3], date: date });
+                if (date[3] == new Date().getFullYear()) {
+                    c2[date[1]] = c2[date[1]] + 1;
+                }
+            });
+            comments.forEach(user => {
+                let date = new Date(new Date(user.created_at).getTime()).toDateString().split(" ");
+                // console.log({ isCurrentYeat: user[date[3]] === new Date().getFullYear(), x: date[3], date: date });
+                if (date[3] == new Date().getFullYear()) {
+                    c3[date[1]] = c2[date[1]] + 1;
+                }
+            });
+            console.log(c1);
+            console.log(c2);
+            console.log(c3);
+            console.table({
+                likes: likes.length, post: posts.length, comments: comments.length
+            });
+            res.render('Forum/MyCredits',
+                {
+                    name: user.username,
+                    userId: user._id,
+                    token: user.token,
+                    nav: "credits"
+                });
+        }
+    });
+});
+
+
 module.exports = app;

@@ -294,25 +294,31 @@ app.get("/mycredits", async (req, res) => {
             let c3 = { "Jan": 0, "Feb": 0, "Mar": 0, "Apr": 0, "May": 0, "Jun": 0, "Jul": 0, "Aug": 0, "Sep": 0, "Oct": 0, "Nov": 0, "Dec": 0 };
 
             likes.forEach(user => {
-                let date = new Date(new Date(user.created_at).getTime()).toDateString().split(" ");
-                // console.log({ isCurrentYeat: user[date[3]] === new Date().getFullYear(), x: date[3], date: date });
-                if (date[3] == new Date().getFullYear()) {
-                    c1[date[1]] = c1[date[1]] + 1;
-                }
+                try {
+                    let date = new Date(new Date(user.created_at).getTime()).toDateString().split(" ");
+                    // console.log({ isCurrentYeat: user[date[3]] === new Date().getFullYear(), x: date[3], date: date });
+                    if (date[3] == new Date().getFullYear()) {
+                        c1[date[1]] = c1[date[1]] + 1;
+                    }
+                } catch (e) { console.log(e); }
             });
             posts.forEach(user => {
-                let date = new Date(new Date(user.created_at).getTime()).toDateString().split(" ");
-                // console.log({ isCurrentYeat: user[date[3]] === new Date().getFullYear(), x: date[3], date: date });
-                if (date[3] == new Date().getFullYear()) {
-                    c2[date[1]] = c2[date[1]] + 1;
-                }
+                try {
+                    let date = new Date(new Date(user.created_at).getTime()).toDateString().split(" ");
+                    // console.log({ isCurrentYeat: user[date[3]] === new Date().getFullYear(), x: date[3], date: date });
+                    if (date[3] == new Date().getFullYear()) {
+                        c2[date[1]] = c2[date[1]] + 1;
+                    }
+                } catch (e) { console.log(e); }
             });
             comments.forEach(user => {
-                let date = new Date(new Date(user.created_at).getTime()).toDateString().split(" ");
-                // console.log({ isCurrentYeat: user[date[3]] === new Date().getFullYear(), x: date[3], date: date });
-                if (date[3] == new Date().getFullYear()) {
-                    c3[date[1]] = c2[date[1]] + 1;
-                }
+                try {
+                    let date = new Date(new Date(user.created_at).getTime()).toDateString().split(" ");
+                    // console.log({ isCurrentYeat: user[date[3]] === new Date().getFullYear(), x: date[3], date: date });
+                    if (date[3] == new Date().getFullYear()) {
+                        c3[date[1]] = c2[date[1]] + 1;
+                    }
+                } catch (e) { console.log(e); }
             });
 
             let x1 = [];

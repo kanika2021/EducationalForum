@@ -111,8 +111,8 @@ app.get("/forgetPass", async function (req, res) {
         result = await Users.find({ email: email });
     }
     else if (action1 === "answer") {
-        result = await Users.find({ email: email });
-
+        let t = await Users.find({ email: email });
+        result = t[0].answer === action2;
     }
     else {
         let filter = { email: email };
@@ -125,9 +125,12 @@ app.get("/forgetPass", async function (req, res) {
         })
     }
 
+    console.log(result);
 
-    if (result != null)
+    if (result != null && action1 === "email")
         res.status(200).send({ email: email, question: result[0].question });
+    else
+        res.status(200).send({ message: "success", result: result });
 
 });
 

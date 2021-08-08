@@ -23,6 +23,7 @@ mongoose.connect('mongodb://localhost:27017/eduforum', { useUnifiedTopology: tru
     .then(() => console.log("Connected to Mongo database"))
     .catch(err => console.log(err));
 
+
 mongoose.set('useCreateIndex', true);
 
 app.use('/', userAuth)

@@ -11,6 +11,10 @@ app.use('/', forumPage);
 
 const Users = mongoose.model('Users', userSchema);
 
+app.get("/", (req, res) => {
+    res.redirect("/login");
+});
+
 app.get('/register', (req, res) => {
     res.render('Register/Register');
 });

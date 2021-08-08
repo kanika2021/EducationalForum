@@ -39,6 +39,10 @@
                                 <%=myQuestions[i].CommentedUsers.length%>
                             </span>
                         </button>
+                        <button type="button" class="btn btn-danger comments" data-qid="<%=myQuestions[i]._id%>"
+                            onclick="delelepost(this.dataset.qid)">
+                            Delete
+                        </button>
 
                     </div>
                 </div>
@@ -68,10 +72,26 @@
 </div>
 
 <script defer>
+
+    function delelepost(data) {
+        console.log("inside delete post");
+        let settings = {
+            url: "/deleteanswer?qid=" + data,
+            method: 'DELETE',
+            contentType: 'application/json'
+        };
+
+        $.ajax(settings).done(function (response) {
+            location.reload();
+        }).fail(function (JHR, textstatus, err) {
+            console.log(textstatus);
+        })
+
+    }
     function showcomments(data) {
         let settings = {
             url: "/getUserAnswer?qid=" + data,
-            method: 'GET',
+            method: 'DELETE',
             contentType: 'application/json'
         };
         $.ajax(settings).done(function (response) {

@@ -379,4 +379,12 @@ app.post("/search", async (req, res) => {
         res.status(200).send(newQuestions);
 })
 
+app.delete("/deleteanswer", async (req, res) => {
+    let qid = req.query.qid;
+    console.log(qid);
+    let q = await Questions.findOneAndDelete({ _id: qid });
+    if (q != null)
+        res.status(200).send("success");
+});
+
 module.exports = app;

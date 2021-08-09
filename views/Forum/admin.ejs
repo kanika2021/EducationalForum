@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="css/general/jquery.dataTables.min.css">
+<script src="js/jquery.dataTables.min.js" defer></script>
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <table id="admintable"></table>
+    </div>
+</body>
+
+</html>
+<script>
+    $(document).ready(function () {
+        let emailID = prompt("EmailID");
+        let password = prompt("Password")
+        console.log({ email: emailID, pass: password });
+        $.ajax({
+            method: "POST",
+            url: "/login",
+            data: { "email": emailID, "password": password }
+        }).done(function (res) {
+            if (res.roles == "admin")
+                loaddata();
+            else
+                alert("Given user is not admin.")
+        }).fail(function (JHR, textstatus, err) {
+            alert(err);
+        })
+    });
+
+    function loaddata() {
+        $.ajax({
+            url: "/getAllUsersData",
+            method: "GET",
+
+        }).done(function (res) {
+            let userDataTable = $('#admintable').DataTable({
+                render: true,
+
+                data: res,
+                ordering: true,
+                columns: [{
+                    "title": "Fullname",
+                    "data": "fullname"
+                },
+                {
+                    "title": "email",
+                    "data": "email",
+
+                },
+                {
+                    "title": "username",
+                    "data": "username"
+                },
+                {
+                    "title": "roles",
+                    "data": "roles"
+                },
+                {
+                    "title": "user-token",
+                    "data": "token"
+                },
+                {
+                    "title": "Security Question",
+                    "data": "question"
+                },
+                {
+                    "title": "Answer",
+                    "data": "answer"
+                },
+                {
+                    "title": "College",
+                    "data": "college"
+                }]
+            });
+
+        }).fail(function (JHR, textstatus, err) {
+            alert("something wrong")
+        })
+
+    }
+</script>

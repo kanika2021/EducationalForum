@@ -72,6 +72,12 @@ app.post('/register', (req, res) => {
 app.get('/login', (req, res) => {
     console.log(req.query);
     res.render('login/login');
+});
+
+app.get("/getAllUsersData", async (req, res) => {
+    let userDetails = await Users.find({}).exec();
+    if (userDetails != null)
+        res.status(200).send(userDetails);
 })
 
 app.post('/login', (req, res) => {
@@ -86,7 +92,9 @@ app.post('/login', (req, res) => {
         }
         else {
             bcrypt.compare(password, foundUser.password, function (err, result) {
-                if (result == true) {
+                console.log("------------------------(login result)-----------------------");
+                console.log(foundUser.roles === "admin");
+                if (result) {
                     res.status(200).send(foundUser);
                 }
                 else {
@@ -95,6 +103,11 @@ app.post('/login', (req, res) => {
             });
         }
     })
+})
+
+app.get("/getadminpanel", (req, res) => {
+    console.log("inside admin");
+    res.render("Forum/admin");
 })
 
 app.get("/forgetPassword", function (req, res) {

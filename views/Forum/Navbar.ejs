@@ -92,12 +92,21 @@
                             <%}%>
                 </li>
                 <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="material-icons" onclick="toggletheme()">
+                            dark_mode
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#" onclick="logout()">
                         <span class="material-icons">
                             logout
                         </span>
                     </a>
                 </li>
+
+
                 <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@Compose"
                     style="margin-left: 100px;display:flex; justify-content: center; align-items: center;"
                     class="btn btn-warning feed" data-userId="<%= userId %>" id="feeder"><u>Feed
@@ -141,6 +150,14 @@
 
 
 <script>
+
+    function toggletheme() {
+        let theme = document.getElementById("theme");
+        if (theme.getAttribute("href") === "css/general/mdb.min.css")
+            theme.setAttribute("href", "css/general/mdb.dark.min.css");
+        else
+            theme.setAttribute("href", "css/general/mdb.min.css")
+    }
 
     let btn = document.getElementById("searchbtn");
 
